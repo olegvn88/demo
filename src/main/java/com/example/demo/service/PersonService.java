@@ -36,7 +36,7 @@ public class PersonService {
         return personDao.deletePersonById(id);
     }
 
-    public int updatePersion(UUID id, Person person) {
+    public BaseResponse updatePersion(UUID id, Person person) {
         return personDao.updatePersonById(id, person);
     }
 }

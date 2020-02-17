@@ -40,6 +40,6 @@ public class SQLiteDialect implements PersonDao  {
 
     @Override
     public BaseResponse updatePersonById(UUID id, Person person) {
-        return 0;
+        return null;
     }
 }
