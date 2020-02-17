@@ -20,14 +20,11 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public BaseResponse insertPerson(UUID id, Person person) {
-        final BaseResponse response;
-        response = new BaseResponse("Success", 200);
-        return response;//.getCode();
+        return new BaseResponse("Success", 200);
     }
 
     @Override
     public BaseResponse insertPerson(Person person) {
-        final BaseResponse response;
         String name = person.getName();
         String sql = String.format("%s'%s')", "INSERT INTO person (id, name) VALUES(uuid_generate_v4(),", name);
         jdbcTemplate.update(sql);
@@ -64,7 +61,9 @@ public class PersonDataAccessService implements PersonDao {
     }
 
     @Override
-    public int updatePersonById(UUID id, Person person) {
-        return 0;
+    public BaseResponse updatePersonById(UUID id, Person person) {
+        String sql = String.format("%s'%s')", "UPDATE person SET name =", person.getName(), " WHERE id = ", id);
+        jdbcTemplate.update(sql);
+        return new BaseResponse("Success", 200);
     }
 }

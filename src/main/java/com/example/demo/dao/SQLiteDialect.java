@@ -9,11 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 @Component
 public class SQLiteDialect implements PersonDao  {
 
@@ -44,7 +39,7 @@ public class SQLiteDialect implements PersonDao  {
     }
 
     @Override
-    public int updatePersonById(UUID id, Person person) {
+    public BaseResponse updatePersonById(UUID id, Person person) {
         return 0;
     }
 }

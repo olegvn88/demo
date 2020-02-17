@@ -41,17 +41,17 @@ public class FakePersonDataAccessService implements PersonDao {
     }
 
     @Override
-    public int updatePersonById(UUID id, Person update) {
+    public BaseResponse updatePersonById(UUID id, Person update) {
         selectPersonById(id)
                 .map(person -> {
                     int indexOfPersonToUpdate = DB.indexOf(person);
                     if (indexOfPersonToUpdate >= 0) {
                         DB.set(indexOfPersonToUpdate, new Person(id, update.getName()));
-                        return 1;
+                        return new BaseResponse("Failed", 400);
                     }
-                    return 0;
+                    return new BaseResponse("Success", 200);
                 })
-                .orElse(0);
-        return 0;
+                .orElse(new BaseResponse("Sucess", 200));
+        return new BaseResponse("Success", 200);
     }
 }
