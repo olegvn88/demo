@@ -62,7 +62,7 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public BaseResponse updatePersonById(UUID id, Person person) {
-        String sql = String.format("%s'%s')", "UPDATE person SET name =", person.getName(), " WHERE id = ", id);
+        String sql = String.format("%s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " WHERE id=", id);
         jdbcTemplate.update(sql);
         return new BaseResponse("Success", 200);
     }
