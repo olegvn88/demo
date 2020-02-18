@@ -21,4 +21,6 @@ public interface PersonDao {
     int deletePersonById(UUID id);
 
     BaseResponse updatePersonById(UUID id, Person person);
+
+    int updatePersonCountryById(UUID id, Person person);
 }

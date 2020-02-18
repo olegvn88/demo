@@ -42,4 +42,9 @@ public class SQLiteDialect implements PersonDao  {
     public BaseResponse updatePersonById(UUID id, Person person) {
         return null;
     }
+
+    @Override
+    public int updatePersonCountryById(UUID id, Person person) {
+        return 0;
+    }
 }
