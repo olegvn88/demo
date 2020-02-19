@@ -34,12 +34,13 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public List<Person> selectAllPeople() {
-        final String sql = "SELECT id, name, country FROM person";
+        final String sql = "SELECT id, name, country, email FROM person";
         return jdbcTemplate.query(sql, (resultSet, i) -> {
             UUID id = UUID.fromString(resultSet.getString("id"));
             String name = resultSet.getString("name");
             String country = resultSet.getString("country");
-            return new Person(id, name, country);
+            String email = resultSet.getString("email");
+            return new Person(id, name, country, email);
         });
     }
 
@@ -53,7 +54,8 @@ public class PersonDataAccessService implements PersonDao {
                     UUID personId = UUID.fromString(resultSet.getString("id"));
                     String name = resultSet.getString("name");
                     String country = resultSet.getString("country");
-                    return new Person(personId, name, country);
+                    String email = resultSet.getString("email");
+                    return new Person(personId, name, country, email);
                 });
         return Optional.ofNullable(person);
     }

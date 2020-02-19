@@ -12,19 +12,24 @@ public class Person {
 
     private final String country;
 
+    private final String email;
+
+
+
 //    public Person(@JsonProperty("id") UUID id,
 //                  @JsonProperty("name") String name) {
 //        this.id = id;
 //        this.name = name;
 //        this.country = null;
 //    }
-
     public Person(@JsonProperty("id") UUID id,
                   @JsonProperty("name") String name,
-                  @JsonProperty("country") String country) {
+                  @JsonProperty("country") String country,
+                  @JsonProperty("email") String email) {
         this.id = id;
         this.name = name;
         this.country = country;
+        this.email = email;
     }
 
 
@@ -38,5 +43,9 @@ public class Person {
 
     public String getCountry() {
         return country;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
