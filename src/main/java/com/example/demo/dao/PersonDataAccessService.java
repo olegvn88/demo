@@ -62,14 +62,14 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public int deletePersonById(UUID id) {
-        String sql = String.format("'%s'", "DELETE from person where id = ", id);
+        String sql = String.format("%s'%s'", "DELETE from person where id = ", id);
         jdbcTemplate.update(sql);
         return 0;
     }
 
     @Override
     public int deletePersonByName(String name) {
-        String sql = String.format("'%s'", "DELETE from person where name = ", name);
+        String sql = String.format("%s'%s'", "DELETE from person where name = ", name);
         jdbcTemplate.update(sql);
         return 0;
     }
