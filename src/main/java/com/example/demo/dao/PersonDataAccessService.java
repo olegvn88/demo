@@ -77,13 +77,16 @@ public class PersonDataAccessService implements PersonDao {
     @Override
     public BaseResponse updatePersonById(UUID id, Person person) {
         String sql = "";
-        if (person.getName() != null && person.getCountry() == null) {
+        if (person.getName() != null && person.getCountry() == null && person.getEmail() == null) {
             sql = String.format("%s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " WHERE id=", id);
-        } else if (person.getCountry() != null && person.getName() == null) {
+        } else if (person.getCountry() != null && person.getName() == null && person.getEmail() == null) {
             sql = String.format("%s'%s'%s'%s'", "UPDATE person SET country = ", person.getCountry(), " WHERE id=", id);
-        } else if (person.getName() != null && person.getCountry() != null) {
-            System.out.println("==================" + person.getCountry());
+        } else if (person.getName() != null && person.getCountry() != null && person.getEmail() == null) {
+            System.out.println("update >>>" + person.getName() + " - " + person.getCountry());
             sql = String.format("%s'%s', %s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " country = ", person.getCountry(), " WHERE id=", id);
+        } else if (person.getEmail() != null && person.getName() != null && person.getCountry() == null) {
+            System.out.println("update >>>" + person.getEmail());
+            sql = String.format("%s'%s', %s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " email = ", person.getEmail(), " WHERE id=", id);
         }
         jdbcTemplate.update(sql);
         return new BaseResponse("Success", 200);
