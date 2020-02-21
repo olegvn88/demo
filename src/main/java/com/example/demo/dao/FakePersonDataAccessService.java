@@ -59,4 +59,14 @@ public class FakePersonDataAccessService implements PersonDao {
     public int updatePersonCountryById(UUID id, Person person) {
         return 0;
     }
+
+    @Override
+    public int updatePersonCountryByName(String name) {
+        return 0;
+    }
+
+    @Override
+    public int deletePersonByName(String name) {
+        return 0;
+    }
 }

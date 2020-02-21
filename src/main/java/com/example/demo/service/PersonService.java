@@ -32,11 +32,15 @@ public class PersonService {
         return personDao.selectPersonById(id);
     }
 
-    public int deletePerson(UUID id) {
+    public int deletePersonById(UUID id) {
         return personDao.deletePersonById(id);
     }
 
     public BaseResponse updatePersion(UUID id, Person person) {
         return personDao.updatePersonById(id, person);
+    }
+
+    public int deletePersonByName(String name) {
+        return personDao.deletePersonByName(name);
     }
 }

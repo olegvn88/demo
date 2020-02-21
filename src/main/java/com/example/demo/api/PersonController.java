@@ -44,9 +44,14 @@ public class PersonController {
         return personService.getPersonById(id).orElse(null);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "/deletePerson/{id}")
     public void deletePersonById(@PathVariable("id") UUID id) {
-        personService.deletePerson(id);
+        personService.deletePersonById(id);
+    }
+
+    @DeleteMapping(path = "/deletePerson")
+    public void deletePersonByName(@Valid @NotNull @RequestBody String name) {
+        personService.deletePersonByName(name);
     }
 
     @PutMapping(path = "{id}")

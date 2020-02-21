@@ -20,7 +20,11 @@ public interface PersonDao {
 
     int deletePersonById(UUID id);
 
+    int deletePersonByName(String name);
+
     BaseResponse updatePersonById(UUID id, Person person);
 
     int updatePersonCountryById(UUID id, Person person);
+
+    int updatePersonCountryByName(String name);
 }
