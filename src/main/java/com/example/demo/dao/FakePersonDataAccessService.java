@@ -61,8 +61,13 @@ public class FakePersonDataAccessService implements PersonDao {
     }
 
     @Override
-    public int updatePersonCountryByName(String name) {
+    public int updatePersonCountryByName(Person person) {
         return 0;
+    }
+
+    @Override
+    public Optional<Person> selectPersonByName(String name) {
+        return Optional.empty();
     }
 
     @Override

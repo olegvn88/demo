@@ -32,6 +32,12 @@ public class Person {
         this.email = email;
     }
 
+//    public Person(@JsonProperty("name") String name,
+//                  @JsonProperty("country") String country,
+//                  @JsonProperty("email") String email) {
+//        this(null, name, country, email);
+//    }
+
 
     public UUID getId() {
         return id;

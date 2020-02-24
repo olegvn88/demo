@@ -46,7 +46,7 @@ public class PersonDataAccessService implements PersonDao {
 
     @Override
     public Optional<Person> selectPersonById(UUID id) {
-        final String sql = "SELECT id, name FROM person WHERE id = ?";
+        final String sql = "SELECT id, name, country, email FROM person WHERE id = ?";
         Person person = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{id},
@@ -100,7 +100,27 @@ public class PersonDataAccessService implements PersonDao {
     }
 
     @Override
-    public int updatePersonCountryByName(String name) {
+    public int updatePersonCountryByName(Person person) {
+        String sql = String.format("%s'%s' %s's'", "UPDATE person SET country = ", person.getCountry(), "WHERE name = ", person.getName());
+        jdbcTemplate.update(sql);
         return 0;
+    }
+
+    @Override
+    public Optional<Person> selectPersonByName(String findName) {
+
+        final String sql = "SELECT id, name, country, email FROM person WHERE name = ?";
+        Person person = jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{findName},
+                (resultSet, i) -> {
+                    UUID personId = UUID.fromString(resultSet.getString("id"));
+                    String name = resultSet.getString("name");
+                    String country = resultSet.getString("country");
+                    String email = resultSet.getString("email");
+                    return new Person(personId, name, country, email);
+                });
+        return Optional.ofNullable(person);
+//        return null;
     }
 }

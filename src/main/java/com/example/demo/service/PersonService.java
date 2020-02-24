@@ -43,4 +43,12 @@ public class PersonService {
     public int deletePersonByName(String name) {
         return personDao.deletePersonByName(name);
     }
+
+    public int updatePersonCountryByName(Person person) {
+        return personDao.updatePersonCountryByName(person);
+    }
+
+    public Optional<Person> getPersonByName(String name) {
+        return personDao.selectPersonByName(name);
+    }
 }

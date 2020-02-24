@@ -26,5 +26,7 @@ public interface PersonDao {
 
     int updatePersonCountryById(UUID id, Person person);
 
-    int updatePersonCountryByName(String name);
+    int updatePersonCountryByName(Person person);
+
+    Optional<Person> selectPersonByName(String name);
 }

@@ -15,11 +15,13 @@ public class SQLiteDialect implements PersonDao  {
     final static Logger logger = LoggerFactory.getLogger(SQLiteDialect.class);
     @Override
     public BaseResponse insertPerson(UUID id, Person person) {
+        logger.info("insertPerson by id", id);
         return new BaseResponse("Success", 200);//.getCode();
     }
 
     @Override
     public BaseResponse insertPerson(Person person) {
+        logger.info("insertPerson");
         return new BaseResponse("Success", 200);//.getCode();
     }
 
@@ -54,7 +56,12 @@ public class SQLiteDialect implements PersonDao  {
     }
 
     @Override
-    public int updatePersonCountryByName(String name) {
+    public int updatePersonCountryByName(Person person) {
         return 0;
+    }
+
+    @Override
+    public Optional<Person> selectPersonByName(String name) {
+        return Optional.empty();
     }
 }
