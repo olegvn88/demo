@@ -24,9 +24,5 @@ public interface PersonDao {
 
     BaseResponse updatePersonById(UUID id, Person person);
 
-    int updatePersonCountryById(UUID id, Person person);
-
-    int updatePersonCountryByName(Person person);
-
     Optional<Person> selectPersonByName(String name);
 }

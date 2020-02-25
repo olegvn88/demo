@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Person;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Repository("postgres")
 public class PersonDataAccessService implements PersonDao {
+    final static Logger logger = Logger.getLogger(PersonDataAccessService.class);
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -77,33 +79,21 @@ public class PersonDataAccessService implements PersonDao {
     @Override
     public BaseResponse updatePersonById(UUID id, Person person) {
         String sql = "";
-        if (person.getName() != null && person.getCountry() == null && person.getEmail() == null) {
+
+        if (person.getName() != null) {
             sql = String.format("%s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " WHERE id=", id);
-        } else if (person.getCountry() != null && person.getName() == null && person.getEmail() == null) {
+            System.out.println("update >>>" + person.getName());
+        } else if (person.getCountry() != null) {
             sql = String.format("%s'%s'%s'%s'", "UPDATE person SET country = ", person.getCountry(), " WHERE id=", id);
-        } else if (person.getName() != null && person.getCountry() != null && person.getEmail() == null) {
-            System.out.println("update >>>" + person.getName() + " - " + person.getCountry());
-            sql = String.format("%s'%s', %s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " country = ", person.getCountry(), " WHERE id=", id);
-        } else if (person.getEmail() != null && person.getName() != null && person.getCountry() == null) {
+            System.out.println("update >>>" + person.getCountry());
+        } else if (person.getEmail() != null) {
             System.out.println("update >>>" + person.getEmail());
-            sql = String.format("%s'%s', %s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " email = ", person.getEmail(), " WHERE id=", id);
+            sql = String.format("%s '%s' %s '%s'", "UPDATE person SET email =", person.getEmail(), " WHERE id =", id);
         }
         jdbcTemplate.update(sql);
-        return new BaseResponse("Success", 200);
-    }
-
-    @Override
-    public int updatePersonCountryById(UUID id, Person person) {
-        String sql = String.format("%s'%s'%s'%s'", "UPDATE person SET country = ", person.getCountry(), " WHERE id=", id);
-        jdbcTemplate.update(sql);
-        return 0;
-    }
-
-    @Override
-    public int updatePersonCountryByName(Person person) {
-        String sql = String.format("%s'%s' %s's'", "UPDATE person SET country = ", person.getCountry(), "WHERE name = ", person.getName());
-        jdbcTemplate.update(sql);
-        return 0;
+        Person personData = selectPersonById(id).orElse(null);
+        logger.info(String.format("%s %s %s %s", personData.getName() + personData.getCountry() + personData.getEmail() + personData.getId()));
+        return new BaseResponse(personData, "Success", 200);
     }
 
     @Override
@@ -121,6 +111,5 @@ public class PersonDataAccessService implements PersonDao {
                     return new Person(personId, name, country, email);
                 });
         return Optional.ofNullable(person);
-//        return null;
     }
 }

@@ -45,8 +45,8 @@ public class PersonController {
     }
 
     @GetMapping(path = "/get")
-    public Person getPersonByName(@RequestParam(value = "name") String name2) {
-        return personService.getPersonByName(name2).orElse(null);
+    public Person getPersonByName(@RequestParam(value = "name") String name) {
+        return personService.getPersonByName(name).orElse(null);
     }
 
     @DeleteMapping(path = "/deletePerson/{id}")
@@ -60,13 +60,8 @@ public class PersonController {
     }
 
     @PutMapping(path = "{id}")
-    public void updatePerson(@PathVariable("id") UUID id, @Valid @NotNull @RequestBody Person personToUpdate) {
-        personService.updatePersion(id, personToUpdate);
-    }
-
-    @PutMapping(path = "/updatePerson")
-    public void updatePersonByName(@Valid @NotNull @RequestBody Person personToUpdate) {
-        personService.updatePersonCountryByName(personToUpdate);
+    public BaseResponse updatePerson(@PathVariable("id") UUID id, @Valid @NotNull @RequestBody Person personToUpdate) {
+        return personService.updatePerson(id, personToUpdate);
     }
 
     @GetMapping(path = "/greeting")
