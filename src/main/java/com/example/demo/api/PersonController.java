@@ -56,7 +56,7 @@ public class PersonController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(path = "/deletePerson")
+    @DeleteMapping
     public ResponseEntity deletePersonByName(@Valid @NotNull @RequestBody String name) {
         personService.deletePersonByName(name);
         return ResponseEntity.noContent().build();

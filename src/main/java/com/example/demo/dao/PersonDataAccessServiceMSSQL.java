@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,17 +24,23 @@ public class PersonDataAccessServiceMSSQL implements PersonDao {
     @Override
     public BaseResponse insertPerson(UUID id, Person person) {
         System.out.println("insertPerson(UUID id, Person person)" + id);
-        return new BaseResponse(person, id, "Success", 200);
+        List<Person> personList = new ArrayList();
+        personList.add(person);
+        return new BaseResponse(personList, id, "Success", 200);
     }
 
     @Override
     public BaseResponse insertPerson(Person person) {
-        String name = person.getName();
+        List<Person> personList = new ArrayList<>();
+        personList.add(person);
+        System.out.println("Base Response is called");
+        String name = personList.get(0).getName();
         String country = person.getCountry() != null ? person.getCountry() : "UA";
-        String sql = String.format("%s'%s','%s')", "INSERT INTO person (id, name, country) VALUES(NEWID(),", name, country);
+        String sql = String.format("%s'%s','%s')", "INSERT INTO person (id, name, country) VALUES (NEWID(),", name, "");
         jdbcTemplate.update(sql);
 
-        return new BaseResponse(selectPersonByName(name).get(), "Success", 200);
+//        return new BaseResponse(selectPersonByName(name).get(), "Success", 200);
+        return new BaseResponse(personList, "Success", 200);
     }
 
     @Override
@@ -51,17 +58,7 @@ public class PersonDataAccessServiceMSSQL implements PersonDao {
     @Override
     public Optional<Person> selectPersonById(UUID id) {
         final String sql = "SELECT id, name, country, email FROM person WHERE id = ?";
-        Person person = jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{id},
-                (resultSet, i) -> {
-                    UUID personId = UUID.fromString(resultSet.getString("id"));
-                    String name = resultSet.getString("name");
-                    String country = resultSet.getString("country");
-                    String email = resultSet.getString("email");
-                    return new Person(personId, name, country, email);
-                });
-        return Optional.ofNullable(person);
+        return getPerson(id, sql);
     }
 
     @Override
@@ -73,7 +70,7 @@ public class PersonDataAccessServiceMSSQL implements PersonDao {
 
     @Override
     public int deletePersonByName(String name) {
-        String sql = String.format("%s'%s'", "DELETE FROM person WHERE name = ", name);
+        String sql = String.format("%s'%s'", "DELETE FROM person WHERE name LIKE ", "%" + name + "%");
         jdbcTemplate.update(sql);
         return 0;
     }
@@ -94,17 +91,37 @@ public class PersonDataAccessServiceMSSQL implements PersonDao {
         }
         jdbcTemplate.update(sql);
         Person personData = selectPersonById(id).orElse(null);
+        List<Person> personList = new ArrayList<>();
+        personList.add(personData);
         logger.info(String.format("%s %s %s %s", personData.getName() + personData.getCountry() + personData.getEmail() + personData.getId()));
-        return new BaseResponse(personData, "Success", 200);
+        return new BaseResponse(personList, "Success", 200);
     }
 
     @Override
     public Optional<Person> selectPersonByName(String findName) {
 
         final String sql = "SELECT id, name, country, email FROM person WHERE name = ?";
+        return getPerson(findName, sql);
+    }
+
+    private Optional<Person> getPerson(String findName, String sql) {
         Person person = jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{findName},
+                (resultSet, i) -> {
+                    UUID personId = UUID.fromString(resultSet.getString("id"));
+                    String name = resultSet.getString("name");
+                    String country = resultSet.getString("country");
+                    String email = resultSet.getString("email");
+                    return new Person(personId, name, country, email);
+                });
+        return Optional.ofNullable(person);
+    }
+
+    private Optional<Person> getPerson(UUID id, String sql) {
+        Person person = jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{id},
                 (resultSet, i) -> {
                     UUID personId = UUID.fromString(resultSet.getString("id"));
                     String name = resultSet.getString("name");

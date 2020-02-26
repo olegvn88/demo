@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +24,9 @@ public class PersonDataAccessService implements PersonDao {
     @Override
     public BaseResponse insertPerson(UUID id, Person person) {
         System.out.println("insertPerson(UUID id, Person person)" + id);
-        return new BaseResponse(person, id, "Success", 200);
+        List<Person> personList = new ArrayList();
+        personList.add(person);
+        return new BaseResponse(personList, id, "Success", 200);
     }
 
     @Override
@@ -32,8 +35,10 @@ public class PersonDataAccessService implements PersonDao {
         String country = person.getCountry() != null ? person.getCountry() : "UA";
         String sql = String.format("%s'%s','%s')", "INSERT INTO person (id, name, country) VALUES(uuid_generate_v4(),", name, country);
         jdbcTemplate.update(sql);
+        List<Person> personList = new ArrayList<>();
+        personList.add(person);
 
-        return new BaseResponse(selectPersonByName(name).get(), "Success", 200);
+        return new BaseResponse(personList, "Success", 200);
     }
 
     @Override
@@ -95,7 +100,9 @@ public class PersonDataAccessService implements PersonDao {
         jdbcTemplate.update(sql);
         Person personData = selectPersonById(id).orElse(null);
         logger.info(String.format("%s %s %s %s", personData.getName() + personData.getCountry() + personData.getEmail() + personData.getId()));
-        return new BaseResponse(personData, "Success", 200);
+        List<Person> personList = new ArrayList<>();
+        personList.add(personData);
+        return new BaseResponse(personList, "Success", 200);
     }
 
     @Override
