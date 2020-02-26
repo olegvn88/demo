@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 
 public class Person {
-    private final UUID id;
+    public UUID id;
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
     //    @NotBlank
     private final String name;
 

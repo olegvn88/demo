@@ -9,8 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PostgresDataSource {
     @Bean
-    @ConfigurationProperties("app.datasource")
-    public HikariDataSource hikariDataSource() {
+//    @ConfigurationProperties("app.datasource")
+    @ConfigurationProperties("app.mssqlsource")
+    public HikariDataSource mssqlDataSource() {
         return DataSourceBuilder
                 .create()
                 .type(HikariDataSource.class)

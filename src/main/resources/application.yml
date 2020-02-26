@@ -4,3 +4,9 @@ app:
     username: postgres
     password: password
     pool-size: 30
+
+  mssqlsource:
+    jdbc-url: jdbc:sqlserver://chsitest.chd2hx0ozjuo.us-east-2.rds.amazonaws.com:1433;databaseName=demodb
+    username: admin
+    password: password
+    pool-size: 30

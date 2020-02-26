@@ -5,6 +5,7 @@ import com.example.demo.model.Greeting;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,13 +51,15 @@ public class PersonController {
     }
 
     @DeleteMapping(path = "/deletePerson/{id}")
-    public void deletePersonById(@PathVariable("id") UUID id) {
+    public ResponseEntity deletePersonById(@PathVariable("id") UUID id) {
         personService.deletePersonById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(path = "/deletePerson")
-    public void deletePersonByName(@Valid @NotNull @RequestBody String name) {
+    public ResponseEntity deletePersonByName(@Valid @NotNull @RequestBody String name) {
         personService.deletePersonByName(name);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "{id}")

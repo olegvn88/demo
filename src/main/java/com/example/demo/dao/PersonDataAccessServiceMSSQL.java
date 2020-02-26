@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("postgres")
-public class PersonDataAccessService implements PersonDao {
-    final static Logger logger = Logger.getLogger(PersonDataAccessService.class);
+@Repository("mssql")
+public class PersonDataAccessServiceMSSQL implements PersonDao {
+    final static Logger logger = Logger.getLogger(PersonDataAccessServiceMSSQL.class);
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PersonDataAccessService(JdbcTemplate jdbcTemplate) {
+    public PersonDataAccessServiceMSSQL(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,7 +30,7 @@ public class PersonDataAccessService implements PersonDao {
     public BaseResponse insertPerson(Person person) {
         String name = person.getName();
         String country = person.getCountry() != null ? person.getCountry() : "UA";
-        String sql = String.format("%s'%s','%s')", "INSERT INTO person (id, name, country) VALUES(uuid_generate_v4(),", name, country);
+        String sql = String.format("%s'%s','%s')", "INSERT INTO person (id, name, country) VALUES(NEWID(),", name, country);
         jdbcTemplate.update(sql);
 
         return new BaseResponse(selectPersonByName(name).get(), "Success", 200);
