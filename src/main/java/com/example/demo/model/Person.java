@@ -6,22 +6,10 @@ import java.util.UUID;
 
 public class Person {
     private UUID id;
-
-    //    @NotBlank
     private final String name;
-
     private final String country;
-
     private final String email;
 
-
-
-//    public Person(@JsonProperty("id") UUID id,
-//                  @JsonProperty("name") String name) {
-//        this.id = id;
-//        this.name = name;
-//        this.country = null;
-//    }
     public Person(@JsonProperty("id") UUID id,
                   @JsonProperty("name") String name,
                   @JsonProperty("country") String country,
@@ -31,13 +19,6 @@ public class Person {
         this.country = country;
         this.email = email;
     }
-
-//    public Person(@JsonProperty("name") String name,
-//                  @JsonProperty("country") String country,
-//                  @JsonProperty("email") String email) {
-//        this(null, name, country, email);
-//    }
-
 
     public UUID getId() {
         return id;

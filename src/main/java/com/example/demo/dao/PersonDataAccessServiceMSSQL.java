@@ -81,13 +81,13 @@ public class PersonDataAccessServiceMSSQL implements PersonDao {
 
         if (person.getName() != null) {
             sql = String.format("%s'%s'%s'%s'", "UPDATE person SET name = ", person.getName(), " WHERE id=", id);
-            System.out.println("update >>>" + person.getName());
+            System.out.println("update name>>>" + person.getName());
         } else if (person.getCountry() != null) {
             sql = String.format("%s'%s'%s'%s'", "UPDATE person SET country = ", person.getCountry(), " WHERE id=", id);
-            System.out.println("update >>>" + person.getCountry());
+            System.out.println("update country>>>" + person.getCountry());
         } else if (person.getEmail() != null) {
-            System.out.println("update >>>" + person.getEmail());
-            sql = String.format("%s '%s' %s '%s'", "UPDATE person SET email =", person.getEmail(), " WHERE id =", id);
+            System.out.println("update email>>>" + person.getEmail());
+            sql = String.format("%s '%s' %s'%s'", "UPDATE person SET email =", person.getEmail(), " WHERE id =", id);
         }
         jdbcTemplate.update(sql);
         Person personData = selectPersonById(id).orElse(null);

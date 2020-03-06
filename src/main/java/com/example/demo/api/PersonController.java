@@ -1,12 +1,10 @@
 package com.example.demo.api;
 
 import com.example.demo.dao.BaseResponse;
-import com.example.demo.model.Greeting;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("api/v1/person")
 @RestController
 public class PersonController {
@@ -26,14 +25,14 @@ public class PersonController {
 
     @PostMapping()
     public BaseResponse addPerson(@Valid @NotNull @RequestBody Person person) {
-        return personService.addPerson(person);
-    }
-
-    @PostMapping(path = "/addPerson")
-    public BaseResponse addPerson2(@Valid @NotNull @RequestBody Person person) {
         System.out.println("call add User");
         return personService.addPerson(person);
     }
+
+//    @PostMapping(path = "/addPerson")
+//    public BaseResponse addPerson2(@Valid @NotNull @RequestBody Person person) {
+//        return personService.addPerson(person);
+//    }
 
     @GetMapping
     public List<Person> getAllPeople() {
@@ -45,12 +44,12 @@ public class PersonController {
         return personService.getPersonById(id).orElse(null);
     }
 
-    @GetMapping(path = "/get")
-    public Person getPersonByName(@RequestParam(value = "name") String name) {
-        return personService.getPersonByName(name).orElse(null);
-    }
+//    @GetMapping(path = "/get")
+//    public Person getPersonByName(@RequestParam(value = "name") String name) {
+//        return personService.getPersonByName(name).orElse(null);
+//    }
 
-    @DeleteMapping(path = "/deletePerson/{id}")
+    @DeleteMapping(path = "{id}")
     public ResponseEntity deletePersonById(@PathVariable("id") UUID id) {
         personService.deletePersonById(id);
         return ResponseEntity.noContent().build();
@@ -65,16 +64,5 @@ public class PersonController {
     @PutMapping(path = "{id}")
     public BaseResponse updatePerson(@PathVariable("id") UUID id, @Valid @NotNull @RequestBody Person personToUpdate) {
         return personService.updatePerson(id, personToUpdate);
-    }
-
-    @GetMapping(path = "/greeting")
-    public String greetingForm(Model model) {
-        model.addAttribute("greeting", new Greeting());
-        return "greeting";
-    }
-
-    @PostMapping("/greeting")
-    public String greetingSubmit(@ModelAttribute Greeting greeting) {
-        return "result";
     }
 }
